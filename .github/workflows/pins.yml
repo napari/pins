@@ -50,7 +50,7 @@ jobs:
           echo "subdirs-json=$(jq -c '.subdirs' versions/${{ matrix.napari-version }}/conda.json)" >> $GITHUB_OUTPUT
           echo "subdirs=$(jq -r '.subdirs | join(" ")' versions/${{ matrix.napari-version }}/conda.json)" >> $GITHUB_OUTPUT
           echo "subchannel-name=napari-${{ matrix.napari-version }}" >> $GITHUB_OUTPUT
-      - uses: conda-incubator/conda-subchannel@main
+      - uses: conda-incubator/conda-subchannel@b409606336e742bdf946367a1136fe3a5e9220a1 # main
         id: subchannel
         with:
           subchannel-name: ${{ steps.args.outputs.subchannel-name }}
@@ -65,7 +65,7 @@ jobs:
         with:
           format: "YYYY-MM-DD HH:MM:SS"
           utcOffset: "+00:00"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: conda-${{ steps.args.outputs.subchannel-name }}
           path: ${{ steps.subchannel.outputs.output-directory }}
@@ -74,7 +74,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: pypi-napari-allversions
           path: versions/*/*.txt
