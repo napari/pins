@@ -24,7 +24,7 @@ jobs:
     outputs:
       versions: ${{ steps.args.outputs.versions }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Get arguments
         id: args
         run: echo "versions=$(ls versions | jq -Rsc 'split("\n")[:-1]')" >> $GITHUB_OUTPUT
@@ -42,7 +42,7 @@ jobs:
       versions: ${{ needs.prepare.outputs.versions }}
       lastmodtime: ${{ steps.current-time.outputs.formattedTime }}
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Get arguments
         id: args
         run: |
@@ -65,7 +65,7 @@ jobs:
         with:
           format: "YYYY-MM-DD HH:MM:SS"
           utcOffset: "+00:00"
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: conda-${{ steps.args.outputs.subchannel-name }}
           path: ${{ steps.subchannel.outputs.output-directory }}
@@ -73,8 +73,8 @@ jobs:
   build-pypi-constraints:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
           name: pypi-napari-allversions
           path: versions/*/*.txt
@@ -87,7 +87,7 @@ jobs:
       contents: write # to deploy to GH Pages
     steps:
       - name: Retrieve release distributions
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           pattern: "*-napari-*"
       - name: List artifacts
@@ -128,13 +128,13 @@ jobs:
         version: ${{ fromJson(needs.build-conda-subchannel.outputs.versions) }}
     steps:
       - name: Retrieve release distributions
-        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53 # v6.0.0
         with:
           name: "conda-${{ needs.build-conda-subchannel.outputs.subchannel-prefix }}${{ matrix.version }}"
       - name: List repodata files
         run: ls -alh ${{ matrix.subdir }}/repodata.*
       - name: Upload conda repodata for ${{ matrix.subdir }}
-        uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8 # v2.3.2
+        uses: softprops/action-gh-release@6da8fa9354ddfdc4aeace5fc48d7f679b5214090 # v2.4.1
         with:
           draft: false
           name: ${{ needs.build-conda-subchannel.outputs.subchannel-prefix }}${{ matrix.version }}/${{ matrix.subdir }}
@@ -156,5 +156,5 @@ jobs:
     permissions:
       actions: write
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - uses: gautamkrishnar/keepalive-workflow@05456e7809058d586d96392e99217726ccc10076 # v2.0.5
